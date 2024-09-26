@@ -21,7 +21,6 @@ jobs:
         uses: rbhadti94/apache-jmeter-action@v0.5.0
         if: always()
         with: 
-              gh_access_token: ${{ secrets.GITHUB_TOKEN }}
               testFilePath: CompraPassagem90thPercentil.jmx
               outputReportsFolder: reports/
               args: "--loglevel INFO -JMyProperty=Value --jmeterlogconf=log.conf"
