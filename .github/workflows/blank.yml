@@ -22,7 +22,7 @@ jobs:
         if: always()
         with: 
               testFilePath: CompraPassagem90thPercentil.jmx
-              outputReportsFolder: TESTE.xml
+              outputReportsFolder: reports/TEST.xml
               args: "--loglevel INFO -JMyProperty=Value --jmeterlogconf=log.conf"
               plugins: "tilln-junit"
 
@@ -31,10 +31,7 @@ jobs:
         uses: mikepenz/action-junit-report@v5.0.0-a03
         if: always()
         with: 
+            token:  ${{ github.token }}
             github_token: ${{ secrets.GITHUB_TOKEN }}
-            report_paths: TESTE.xml
+            report_paths: reports/TEST.xml
     
-          
-
-
-
