@@ -22,40 +22,33 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v4
+      # Checks out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
+      # Create a directory for the reports
+      - name: Create reports directory
+        run: mkdir reports
 
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+      # Run JMeter tests
+      - name: JMeter Test
+        uses: QAInsights/PerfAction@v5.6.2
+        with:
+          test-plan-path: CompraPassagem90thPercentil.jmx
+          args: "-e -o ./reports/html/"
 
+      # Upload JMeter results
+      - name: Upload Results
+        uses: actions/upload-artifact@v3
+        with:
+          name: jmeter-results
+          path: result.jtl
+          if-no-files-found: error
 
-        - name: Create reports directory
-          run: mkdir reports
-        
-        - name: JMeter Test
-          uses: QAInsights/PerfAction@v5.6.2
-          with:
-            test-plan-path: ./TestPlans/S01_SimpleExample/S01_SimpleExample.jmx
-            args: "-e -o ./reports/html/"
-            
-        - name: Upload Results
-          uses: actions/upload-artifact@v3
-          with:
-            name: jmeter-results
-            path: result.jtl
-            if-no-files-found: error
-        
-        - name: Upload HTML Reports
-          uses: actions/upload-artifact@v3
-          with:
-            name: jmeter-html-reports
-            path: reports
-            if-no-files-found: error
-          
+      # Upload HTML reports
+      - name: Upload HTML Reports
+        uses: actions/upload-artifact@v3
+        with:
+          name: jmeter-html-reports
+          path: reports
+          if-no-files-found: error
