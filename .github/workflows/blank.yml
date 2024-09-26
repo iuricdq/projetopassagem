@@ -12,19 +12,35 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout repository
+      # Checkout do repositório
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Create reports directory
+      # Criar diretório para relatórios
       - name: Create reports directory
-        run: mkdir -p reports
-               
-                
-      - name: PerfAction for JMeter
+        run: mkdir -p reports/html
+
+      # Executar testes JMeter
+      - name: Run JMeter Tests
         uses: QAInsights/PerfAction@v5.6.2
-        if: always()
         with:
-            test-plan-path: CompraPassagem90thPercentil.jmx
-            results-file: reports/result.jtl
-            args: ""
+          test-plan-path: CompraPassagem90thPercentil.jmx
+          args: "-e -o ./reports/html/"
+
+      # Fazer upload dos resultados JTL
+      - name: Upload JTL Results
+        uses: actions/upload-artifact@v3
+        if: always()  # Fazer upload independente do sucesso ou falha
+        with:
+          name: jmeter-results
+          path: result.jtl
+          if-no-files-found: error
+
+      # Fazer upload dos relatórios HTML
+      - name: Upload HTML Reports
+        uses: actions/upload-artifact@v3
+        if: always()  # Fazer upload independente do sucesso ou falha
+        with:
+          name: jmeter-html-reports
+          path: reports/html/**  # Captura todos os arquivos HTML gerados
+          if-no-files-found: error
