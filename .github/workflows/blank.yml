@@ -21,7 +21,7 @@ jobs:
         uses: rbhadti94/apache-jmeter-action@v0.5.0
         with: 
           testFilePath: teste/CompraPassagem90thPercentil.jmx
-          outputReportsFolder: report/TESTEy.xml
+          outputReportsFolder: report/
           args: "--loglevel INFO -JMyProperty=Value --jmeterlogconf=log.conf"
           plugins: "tilln-junit"
 
@@ -37,4 +37,4 @@ jobs:
         with: 
           token: ${{ github.token }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          report_paths: report/TESTEy.xml
+          report_paths: report/
