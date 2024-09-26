@@ -24,6 +24,7 @@ jobs:
       - name: JMeter Test
         uses: QAInsights/PerfAction@v5.6.2
         with:
+          gh_access_token: ${{ secrets.GITHUB_TOKEN }}
           test-plan-path: CompraPassagem90thPercentil.jmx
           args: "-e -o ./reports/html"  # Removed -l to avoid duplicate option
 
@@ -31,6 +32,7 @@ jobs:
       - name: Upload JMeter Results
         uses: actions/upload-artifact@v3
         with:
+          gh_access_token: ${{ secrets.GITHUB_TOKEN }}
           name: jmeter-results
           path: ./CompraPassagem90thPercentil.jtl  # Explicitly checking the JTL file based on test plan name
           if-no-files-found: error
@@ -39,6 +41,7 @@ jobs:
       - name: Upload JMeter HTML Reports
         uses: actions/upload-artifact@v3
         with:
+          gh_access_token: ${{ secrets.GITHUB_TOKEN }}
           name: jmeter-html-reports
           path: reports
           if-no-files-found: error
