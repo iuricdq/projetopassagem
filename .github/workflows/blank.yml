@@ -33,7 +33,7 @@ jobs:
         with: 
             token:  ${{ github.token }}
             github_token: ${{ secrets.GITHUB_TOKEN }}
-            report_paths: reports/TESTE.xml
+            report_paths: TESTE.xml
     
           
 
