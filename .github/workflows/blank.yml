@@ -16,25 +16,22 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Run JMeter Tests plugins
+
       - name: Run JMeter Tests plugins
         uses: rbhadti94/apache-jmeter-action@v0.5.0
+        if: always()
         with: 
-          testFilePath: teste/CompraPassagem90thPercentil.jmx
-          outputReportsFolder: report/
-          args: "--loglevel INFO -JMyProperty=Value --jmeterlogconf=log.conf"
-          plugins: "tilln-junit"
+              testFilePath: CompraPassagem90thPercentil.jmx
+              outputReportsFolder: report/TEST.xml
+              args: "--loglevel INFO -JMyProperty=Value --jmeterlogconf=log.conf"
+              plugins: "tilln-junit"
 
-      # List report files
-      - name: List report files
-        run: |
-          ls -l report/
 
-      # JUnit Report Action
       - name: JUnit Report Action
         uses: mikepenz/action-junit-report@v5.0.0-a03
-        if: success()  # Executa somente se a etapa anterior foi bem-sucedida
+        if: always()
         with: 
-          token: ${{ github.token }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          report_paths: report/
+            token:  ${{ github.token }}
+            github_token: ${{ secrets.GITHUB_TOKEN }}
+            report_paths: report/TEST.xml
+    
