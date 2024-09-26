@@ -21,8 +21,8 @@ jobs:
         uses: rbhadti94/apache-jmeter-action@v0.5.0
         if: always()
         with: 
-              testFilePath: CompraPassagem90thPercentil.jmx
-              outputReportsFolder: TESTE.xml
+              testFilePath: teste/CompraPassagem90thPercentil.jmx
+              outputReportsFolder: report/TESTEx.xml
               args: "--loglevel INFO -JMyProperty=Value --jmeterlogconf=log.conf"
               plugins: "tilln-junit"
 
@@ -32,7 +32,7 @@ jobs:
         if: always()
         with: 
             github_token: ${{ secrets.GITHUB_TOKEN }}
-            report_paths: TESTE.xml
+            report_paths: report/TESTEx.xml
     
           
 
