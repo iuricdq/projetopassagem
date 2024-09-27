@@ -20,27 +20,14 @@ jobs:
       - name: Create reports directory
         run: mkdir -p reports/html
 
-      # Executar testes JMeter
-      - name: Run JMeter Tests
+
+      - name: PerfAction for JMeter
+  # You may pin to the exact commit or the version.
+  # uses: QAInsights/PerfAction@5a3c503bff845dd019d4b6e30d71f4585494a2ea
         uses: QAInsights/PerfAction@v5.6.2
+        if: always()
         with:
-          test-plan-path: CompraPassagem90thPercentil.jmx
-          args: "-e -o ./reports/html/"
-
-      # Fazer upload dos resultados JTL
-      - name: Upload JTL Results
-        uses: actions/upload-artifact@v3
-        if: always()  # Fazer upload independente do sucesso ou falha
-        with:
-          name: jmeter-results
-          path: result.jtl
-          if-no-files-found: error
-
-      # Fazer upload dos relatórios HTML
-      - name: Upload HTML Reports
-        uses: actions/upload-artifact@v3
-        if: always()  # Fazer upload independente do sucesso ou falha
-        with:
-          name: jmeter-html-reports
-          path: reports/html/**  # Captura todos os arquivos HTML gerados
-          if-no-files-found: error
+            test-plan-path: CompraPassagem90thPercentil.jmx
+            results-file: result.jtl
+            args: ""
+          
