@@ -16,8 +16,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-# Use JMeter to run the JMX test case with additional plugins 
-      - name: Run JMeter Tests plugins
+      # Execute os testes JMeter
+      - name: Run JMeter Tests
         uses: rbhadti94/apache-jmeter-action@v0.5.0
         if: always()
         with:
@@ -25,4 +25,10 @@ jobs:
           outputReportsFolder: reports/
           args: "--loglevel INFO -JMyProperty=Value --jmeterlogconf=log.conf"
           plugins: "tilln-junit"
-        
+
+      # Fazer upload dos relatórios como artefatos
+      - name: Upload JMeter reports
+        uses: actions/upload-artifact@v3
+        with:
+          name: jmeter-reports
+          path: reports/
