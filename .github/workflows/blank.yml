@@ -12,12 +12,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout do repositório
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Instalar JMeter
-      - name: Install JMeter
+      - name: Install JMeter and Dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y openjdk-11-jdk
@@ -26,17 +24,18 @@ jobs:
           sudo mv apache-jmeter-5.5 /opt/jmeter
           echo "/opt/jmeter/bin" >> $GITHUB_ENV
 
-      # Baixar e instalar o JUnitReporter plugin
-      - name: Install JUnitReporter plugin
+      - name: Install JMeter Plugins Manager
         run: |
-          mkdir -p /opt/jmeter/lib/ext
-          wget https://repo1.maven.org/maven2/nz/co/breakpoint/jmeter/junit-reporter/1.3/junit-reporter-1.3.jar -P /opt/jmeter/lib/ext
+          wget https://jmeter-plugins.org/files/packages/JMeterPlugins-Manager-1.4.0.jar -P /opt/jmeter/lib/ext
+          /opt/jmeter/bin/jmeter -n -t /opt/jmeter/lib/ext/JMeterPlugins-Manager-1.4.0.jar
 
-      # Criar diretório para relatórios
+      - name: Install Required Plugins
+        run: |
+          /opt/jmeter/bin/jmeter -n -Jpluginsmanager.autodownload=true -Jpluginsmanager.install=JUnitReporter
+
       - name: Create reports directory
         run: mkdir -p reports/html
 
-      # Executar JMeter
       - name: PerfAction for JMeter
         uses: QAInsights/PerfAction@v3.1
         if: always()
