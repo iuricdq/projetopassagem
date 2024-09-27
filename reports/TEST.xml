@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite errors="0"
-           failures="0"
-           name="JUnit Reporter"
-           skipped="0"
-           tests="1">
-   <testcase classname="90th Percentil menor que 2 segundos" name="P90(.*) &lt; 2000"/>
-</testsuite>
