@@ -12,30 +12,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Checkout do repositório
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install JMeter and Dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y openjdk-11-jdk
-          wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.5.tgz
-          tar -xzf apache-jmeter-5.5.tgz
-          sudo mv apache-jmeter-5.5 /opt/jmeter
-          echo "/opt/jmeter/bin" >> $GITHUB_ENV
-
-      - name: Install JMeter Plugins Manager
-        run: |
-          wget https://jmeter-plugins.org/files/packages/JMeterPlugins-Manager-1.4.0.jar -P /opt/jmeter/lib/ext
-          /opt/jmeter/bin/jmeter -n -t /opt/jmeter/lib/ext/JMeterPlugins-Manager-1.4.0.jar
-
-      - name: Install Required Plugins
-        run: |
-          /opt/jmeter/bin/jmeter -n -Jpluginsmanager.autodownload=true -Jpluginsmanager.install=JUnitReporter
-
+      # Criar diretório para relatórios
       - name: Create reports directory
         run: mkdir -p reports/html
 
-      - name: Run JMeter Test
-        run: |
-          /opt/jmeter/bin/jmeter -n -t CompraPassagem90thPercentil.jmx -l result.jtl
+
+      - name: PerfAction for JMeter
+  # You may pin to the exact commit or the version.
+  # uses: QAInsights/PerfAction@5a3c503bff845dd019d4b6e30d71f4585494a2ea
+        uses: QAInsights/PerfAction@v3.1
+        if: always()
+        with:
+            test-plan-path: './CompraPassagem90thPercentil.jmx'
+            results-file: result.jtl
+            args: ""
