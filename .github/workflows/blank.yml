@@ -36,10 +36,6 @@ jobs:
       - name: Create reports directory
         run: mkdir -p reports/html
 
-      - name: PerfAction for JMeter
-        uses: QAInsights/PerfAction@v3.1
-        if: always()
-        with:
-          test-plan-path: CompraPassagem90thPercentil.jmx
-          results-file: result.jtl
-          args: ""
+      - name: Run JMeter Test
+        run: |
+          /opt/jmeter/bin/jmeter -n -t CompraPassagem90thPercentil.jmx -l result.jtl
